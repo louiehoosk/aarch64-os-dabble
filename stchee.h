@@ -1,5 +1,8 @@
 #include <stdint.h>
 
+void print(const char *s);
+#define assert(x, msg) if(!(x)){print(msg);}
+
 extern char __heap_base;
 extern char __heap_top;
 extern char __stack_base;
@@ -18,14 +21,15 @@ void chee_init() {
 }
 
 void* chee_malloc(int bytecount){
-    int max_page_count = (&__heap_top - &__heap_base) / PAGE_SIZE;
+    assert(bytecount / PAGE_SIZE < 0x100, "chee_malloc bytecount too big!\n");
+    //int max_page_count = (&__heap_top - &__heap_base) / PAGE_SIZE;
     int req_page_count = (bytecount + 1) / PAGE_SIZE + 1;
     
     uint8_t* dest_ptr = &__heap_base;
     do {
-	// find new pages start canidate
+	// find new pages start candidate
 	while (*dest_ptr != 0) {
-	    dest_ptr += PAGE_SIZE;
+	    dest_ptr += (*dest_ptr) * PAGE_SIZE;
 	}
 
 	// check if necessary num of free contiguous pages fits

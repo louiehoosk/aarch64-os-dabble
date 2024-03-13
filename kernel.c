@@ -17,9 +17,9 @@ void print(const char *s) {
 
 void printaddr(intptr_t num)
 {
-    char hexstr[16];
+    char hexstr[64];
     char hex_chars[] = "0123456789ABCDEF";
-    int i = 0;
+    int i = 01;
     
     putchar('0');
     putchar('x');
@@ -56,8 +56,8 @@ typedef struct {
 } fullname;
 
 typedef struct {
-    char firstname[70];
-    char lastname[70];
+    char firstname[17000];
+    char lastname[17000];
 } bigname;
 
 typedef struct {
